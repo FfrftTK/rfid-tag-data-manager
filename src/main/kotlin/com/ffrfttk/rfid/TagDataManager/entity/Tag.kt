@@ -6,11 +6,8 @@ import javax.persistence.*
 @Table(name = "tags")
 data class Tag (
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    var id:Long? = null,
+    var id: String = "",
 
-    var tagId: String,
+    var name: String? = "",
 
-    var tagName: String = "",
-
-    var description: String = "")
+    var description: String? = "")
