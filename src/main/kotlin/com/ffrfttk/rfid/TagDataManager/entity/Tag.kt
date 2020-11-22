@@ -25,5 +25,4 @@ data class Tag (
     @ManyToOne()
     @JoinColumn(name = "user_id")
     var user: User? = User(id = 1,)
-
 )
