@@ -15,7 +15,7 @@ class UserController (private val userService: UserService) {
     }
 
     @PostMapping("")
-    fun create(user: User): User {
+    fun create(@RequestBody user: User): User {
         return userService.save(user)
     }
 
