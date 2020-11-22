@@ -1,6 +1,7 @@
 package com.ffrfttk.rfid.TagDataManager.entity
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -14,7 +15,14 @@ data class User (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    var name: String? = "",
+    var name: String = "",
+
+    @Transient
+    @JsonIgnore
+    var passwordRaw: String? = "",
+
+    @JsonIgnore
+    var password: String = "",
 
     var description: String? = "",
 

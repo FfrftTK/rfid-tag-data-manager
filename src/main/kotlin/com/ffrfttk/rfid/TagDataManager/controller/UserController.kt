@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTCreationException
 import com.ffrfttk.rfid.TagDataManager.entity.User
 import com.ffrfttk.rfid.TagDataManager.service.UserService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -20,6 +21,13 @@ class UserController (private val userService: UserService) {
 
     @PostMapping("")
     fun create(@RequestBody user: User): User {
+        user.password = BCryptPasswordEncoder()
+            .encode(user.passwordRaw)
+        return userService.save(user)
+    }
+
+    @PostMapping(path = ["login"])
+    fun login(@RequestBody user: User): User {
         val res = createToken(user)
         return userService.save(user)
     }
@@ -44,6 +52,16 @@ class UserController (private val userService: UserService) {
         return token
     }
 
-
+    fun authenticateToken(token: String) {
+        try {
+            val algorithm = Algorithm.HMAC256(privateKey)
+            val jwtVerifier = JWT.require(algorithm)
+                .withIssuer("auth0")
+                .build()
+            jwtVerifier.verify(token)
+        } catch (e: JWTCreationException) {
+            println("Invalid Token")
+        }
+    }
 
 }
