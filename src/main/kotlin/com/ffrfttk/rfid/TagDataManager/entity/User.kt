@@ -19,5 +19,8 @@ data class User (
     var createdAt: LocalDateTime? = LocalDateTime.now(),
 
     @Column(name = "updated_at")
-    var updatedAt: LocalDateTime? = LocalDateTime.now()
+    var updatedAt: LocalDateTime? = LocalDateTime.now(),
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    var tags: MutableList<Tag> = mutableListOf()
 )
