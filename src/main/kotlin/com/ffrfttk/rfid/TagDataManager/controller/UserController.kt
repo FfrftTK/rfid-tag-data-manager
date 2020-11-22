@@ -9,7 +9,7 @@ import java.util.*
 @RequestMapping("/api/v1/users")
 class UserController (private val userService: UserService) {
 
-    @GetMapping("{id}")
+    @GetMapping(path = ["{id}"])
     fun findById(@PathVariable id: Long): Optional<User> {
         return userService.findById(id)
     }
