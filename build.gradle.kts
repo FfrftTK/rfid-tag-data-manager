@@ -33,6 +33,7 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.flywaydb:flyway-core")
+	implementation("com.auth0:java-jwt:3.11.0")
 }
 
 tasks.withType<Test> {
