@@ -1,10 +1,13 @@
 package com.ffrfttk.rfid.TagDataManager.entity
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
 @Table(name = "tags")
+@JsonIdentityInfo(property = "@id", generator = ObjectIdGenerators.UUIDGenerator::class)
 data class Tag (
     @Id
     @SequenceGenerator(name = "tags_id_seq")
