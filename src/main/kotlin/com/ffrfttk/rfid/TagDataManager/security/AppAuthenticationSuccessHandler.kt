@@ -3,13 +3,13 @@ package com.ffrfttk.rfid.TagDataManager.security
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.ffrfttk.rfid.TagDataManager.entity.User
+import org.slf4j.Logger
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import java.util.*
 import java.util.concurrent.TimeUnit
-import java.util.logging.Logger
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -41,7 +41,7 @@ class AppAuthenticationSuccessHandler(secretKey: String, private val logger: Log
             .withExpiresAt(expiresAt)
             .withSubject(user.id.toString())
             .sign(this.algorithm);
-        logger.info(token)
+        logger.debug(token)
         return token
     }
 
