@@ -13,7 +13,7 @@ import java.util.logging.Logger
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class AppAuthenticationSuccessHandler(private val secretKey: String, private val logger: Logger) : AuthenticationSuccessHandler {
+class AppAuthenticationSuccessHandler(secretKey: String, private val logger: Logger) : AuthenticationSuccessHandler {
     companion object {
         val expirationTime: Long = TimeUnit.MINUTES.toMillis(10)
     }
