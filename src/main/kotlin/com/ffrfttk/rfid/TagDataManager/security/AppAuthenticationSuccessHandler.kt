@@ -2,8 +2,8 @@ package com.ffrfttk.rfid.TagDataManager.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.ffrfttk.rfid.TagDataManager.entity.User
 import org.slf4j.Logger
+import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.WebAttributes
@@ -19,7 +19,10 @@ class AppAuthenticationSuccessHandler(secretKey: String, private val logger: Log
     }
     private val algorithm = Algorithm.HMAC256(secretKey)
 
-    override fun onAuthenticationSuccess(request: HttpServletRequest?, response: HttpServletResponse?, authentication: Authentication?) {
+    override fun onAuthenticationSuccess(
+        request: HttpServletRequest?,
+        response: HttpServletResponse?,
+        authentication: Authentication?) {
         if (response?.isCommitted == true) {
             logger.info("Response has already been committed")
             return
@@ -31,7 +34,7 @@ class AppAuthenticationSuccessHandler(secretKey: String, private val logger: Log
 
 
     private fun generateToken(authentication: Authentication?): String {
-        val user: User = authentication?.principal as User
+//        val user: User = authentication?.principal as User
         val issuedAt = Date()
         val notBefore = Date(issuedAt.time)
         val expiresAt = Date(issuedAt.time + expirationTime)
@@ -39,7 +42,8 @@ class AppAuthenticationSuccessHandler(secretKey: String, private val logger: Log
             .withIssuedAt(issuedAt)
             .withNotBefore(notBefore)
             .withExpiresAt(expiresAt)
-            .withSubject(user.id.toString())
+//            .withSubject(user.id.toString())
+            .withSubject("1")
             .sign(this.algorithm);
         logger.debug(token)
         return token

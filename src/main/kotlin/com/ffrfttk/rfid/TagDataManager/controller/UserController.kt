@@ -19,7 +19,7 @@ class UserController (private val userService: UserService) {
         return userService.findById(id)
     }
 
-    @PostMapping("")
+    @PostMapping("signUp")
     fun create(@RequestBody user: User): User {
         user.password = BCryptPasswordEncoder()
             .encode(user.passwordRaw)

@@ -9,5 +9,7 @@ class UserService (private val userRepository: UserRepository) {
 
     fun findById(id: Long) = userRepository.findById(id)
 
+    fun findByName(name: String) = userRepository.findByName(name)
+
     fun save(user: User) = userRepository.save(user)
 }
