@@ -26,6 +26,6 @@ data class Tag (
     var updatedAt: LocalDateTime? = LocalDateTime.now(),
 
     @ManyToOne()
-    @JoinColumn(name = "user_id")
-    var user: User? = User(id = 1,)
+    @JoinColumn(name = "user_name")
+    var user: User? = User(name = "admin",)
 )

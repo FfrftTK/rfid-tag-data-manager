@@ -13,11 +13,8 @@ import javax.persistence.*
 @Table(name = "users")
 @JsonIdentityInfo(property = "@id", generator = ObjectIdGenerators.UUIDGenerator::class)
 data class User (
-    @Id
-    @SequenceGenerator(name = "users_id_seq")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
 
+    @Id
     var name: String = "",
 
     @Transient
