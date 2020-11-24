@@ -18,7 +18,6 @@ data class User (
     var name: String = "",
 
     @Transient
-    @JsonIgnore
     var passwordRaw: String? = "",
 
     @JsonIgnore
