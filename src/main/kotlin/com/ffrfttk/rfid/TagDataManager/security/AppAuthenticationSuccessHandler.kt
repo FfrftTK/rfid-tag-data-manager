@@ -3,7 +3,6 @@ package com.ffrfttk.rfid.TagDataManager.security
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import org.slf4j.Logger
-import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.WebAttributes
@@ -34,7 +33,8 @@ class AppAuthenticationSuccessHandler(secretKey: String, private val logger: Log
 
 
     private fun generateToken(authentication: Authentication?): String {
-//        val user: User = authentication?.principal as User
+        val user = authentication?.principal
+            as org.springframework.security.core.userdetails.User
         val issuedAt = Date()
         val notBefore = Date(issuedAt.time)
         val expiresAt = Date(issuedAt.time + expirationTime)
@@ -42,7 +42,7 @@ class AppAuthenticationSuccessHandler(secretKey: String, private val logger: Log
             .withIssuedAt(issuedAt)
             .withNotBefore(notBefore)
             .withExpiresAt(expiresAt)
-//            .withSubject(user.id.toString())
+            .withSubject(user.username)
             .withSubject("1")
             .sign(this.algorithm);
         logger.debug(token)
