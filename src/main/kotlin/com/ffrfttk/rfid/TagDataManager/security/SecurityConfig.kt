@@ -1,5 +1,6 @@
 package com.ffrfttk.rfid.TagDataManager.security
 
+import com.auth0.jwt.algorithms.Algorithm
 import com.ffrfttk.rfid.TagDataManager.service.AppUserDetailsService
 import org.slf4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +13,8 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.filter.GenericFilterBean
 
 
 @EnableWebSecurity
@@ -48,6 +51,7 @@ class SecurityConfig(
 //            .failureHandler(authenticationFailureHandler())
             .and()
             .csrf().disable()
+//            .addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
@@ -59,5 +63,8 @@ class SecurityConfig(
         return AppAuthenticationFailureHandler(logger)
     }
 
+    fun tokenFilter(): GenericFilterBean {
+        return TokenFilter(Algorithm.HMAC256(secretKey))
+    }
 
 }
