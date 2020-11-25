@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -29,9 +30,6 @@ class SecurityConfig(
     @Autowired
     private val userRepository: UserRepository
 ) : WebSecurityConfigurerAdapter() {
-
-    val secretKey = "secret"
-
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth?.userDetailsService(appUserDetailsService)
             ?.passwordEncoder(BCryptPasswordEncoder())
@@ -46,6 +44,9 @@ class SecurityConfig(
             .mvcMatchers("/api/v1/users/signUp").permitAll()
             .anyRequest().authenticated()
             .and()
+            // exception
+            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
+            .and()
             // login
             .formLogin()
             .loginProcessingUrl("/login").permitAll()
@@ -55,12 +56,13 @@ class SecurityConfig(
 //            .failureHandler(authenticationFailureHandler())
             .and()
             .csrf().disable()
-            .addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
+//            .addFilterBefore(tokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            // session
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     fun authenticationSuccessHandler(): AuthenticationSuccessHandler? {
-        return AppAuthenticationSuccessHandler(secretKey, logger)
+        return AppAuthenticationSuccessHandler(SecurityConstants.SECRET, logger)
     }
 
     fun authenticationFailureHandler(): AuthenticationFailureHandler? {
@@ -68,7 +70,11 @@ class SecurityConfig(
     }
 
     fun tokenFilter(): GenericFilterBean {
-        return TokenFilter(Algorithm.HMAC256(secretKey), userRepository)
+        return TokenFilter(Algorithm.HMAC256(SecurityConstants.SECRET), userRepository)
+    }
+
+    fun authenticationEntryPoint(): AuthenticationEntryPoint {
+        return AppAuthenticationEntryPoint();
     }
 
 }
