@@ -13,6 +13,8 @@ class TagService (private val tagRepository: TagRepository) {
 
     fun save(tag: Tag) = tagRepository.save(tag)
 
+    fun saveAll(tags: Iterable<Tag>) = tagRepository.saveAll(tags)
+
     fun delete(id: Long) = tagRepository.deleteById(id)
 
 }
