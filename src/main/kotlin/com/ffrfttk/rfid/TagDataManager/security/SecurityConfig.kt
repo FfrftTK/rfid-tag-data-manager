@@ -2,6 +2,7 @@ package com.ffrfttk.rfid.TagDataManager.security
 
 import com.ffrfttk.rfid.TagDataManager.service.AppUserDetailsService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
@@ -32,7 +33,14 @@ class SecurityConfig(
     }
 
     override fun configure(web: WebSecurity?) {
-        super.configure(web)
+        web?.ignoring()
+            ?.antMatchers(
+                "/api/v1/v3/api-docs/**",
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/swagger-resources",
+                "/swagger-resources/**"
+            )
     }
 
     override fun configure(http: HttpSecurity?) {
@@ -54,6 +62,7 @@ class SecurityConfig(
             // Authorizations
             .and()
             .authorizeRequests()
+            .mvcMatchers("/swagger-ui/index.html").permitAll()
             .mvcMatchers(SecurityProperties.SIGN_UP_URL).permitAll()
             .anyRequest().authenticated()
             // Filters
