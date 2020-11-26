@@ -23,7 +23,10 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
+	val springfoxSwagger2Version = "3.0.0"
+	val springfoxSwaggerUiVersion = "3.0.0"
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -37,6 +40,8 @@ dependencies {
 	implementation("org.springframework.security:spring-security-web")
 	implementation("org.springframework.security:spring-security-config")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("io.springfox:springfox-boot-starter:$springfoxSwagger2Version")
+	implementation("io.springfox:springfox-boot-starter:$springfoxSwaggerUiVersion")
 }
 
 tasks.withType<Test> {
