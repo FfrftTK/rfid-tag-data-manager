@@ -13,9 +13,10 @@ import java.util.*
 @RequestMapping("/api/v1/users")
 class UserController (private val userService: UserService) {
 
-    @GetMapping(path = ["{id}"])
-    fun findById(@PathVariable id: Long): Optional<User> {
-        return userService.findById(id)
+    @GetMapping(path = ["{name}"])
+    fun findByName(@PathVariable name: String): Optional<User> {
+        val user = userService.findByName(name).firstOrNull()
+        return Optional.ofNullable(user)
     }
 
     @PostMapping("signUp")

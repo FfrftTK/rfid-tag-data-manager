@@ -44,7 +44,7 @@ class JWTProvider(
         val token = (request as HttpServletRequest)
             .getHeader(SecurityProperties.TOKEN_HEADER)
 
-        if(token == null || token.startsWith(SecurityProperties.TOKEN_PREFIX)) {
+        if(token == null || !token.startsWith(SecurityProperties.TOKEN_PREFIX)) {
             return null
         }
 

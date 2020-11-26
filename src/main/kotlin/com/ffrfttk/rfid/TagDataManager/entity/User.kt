@@ -12,7 +12,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 @JsonIdentityInfo(property = "@id", generator = ObjectIdGenerators.UUIDGenerator::class)
-data class User (
+class User (
 
     @Id
     var name: String = "",
@@ -20,7 +20,7 @@ data class User (
     @Transient
     var passwordRaw: String? = "",
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(name = "password")
     var password: String = "",
 
