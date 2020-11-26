@@ -21,6 +21,9 @@ class SecurityConfig(
     private val appAuthenticationSuccessHandler: AppAuthenticationSuccessHandler,
 
     @Autowired
+    private val appAuthenticationFailureHandler: AppAuthenticationFailureHandler,
+
+    @Autowired
     private val tokenFilter: TokenFilter
 ) : WebSecurityConfigurerAdapter() {
     override fun configure(auth: AuthenticationManagerBuilder?) {
@@ -47,6 +50,7 @@ class SecurityConfig(
             .usernameParameter("name")
             .passwordParameter("passwordRaw")
             .successHandler(appAuthenticationSuccessHandler)
+            .failureHandler(appAuthenticationFailureHandler)
             // Authorizations
             .and()
             .authorizeRequests()
@@ -56,4 +60,5 @@ class SecurityConfig(
             .and()
             .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter::class.java)
     }
+
 }
