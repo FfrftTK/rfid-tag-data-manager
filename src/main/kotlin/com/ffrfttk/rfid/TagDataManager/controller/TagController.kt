@@ -17,15 +17,40 @@ class TagController (
     private val userService: UserService,
 ) {
     @GetMapping("")
-    fun showStatus(): List<Tag> {
+    fun getAllTags(): List<Tag> {
         return userService.findUserFromAuthentication()?.tags ?: listOf()
     }
 
     @PostMapping("")
-    fun create(@RequestBody tag: Tag): Tag {
+    fun register(@RequestBody tag: Tag): Tag {
         val user = userService.findUserFromAuthentication()
             ?: return throw UsernameNotFoundException("Invalid User")
         tag.user = user
+        return tagService.save(tag)
+    }
+
+    @PostMapping("all")
+    fun registerAll(@RequestBody tags: MutableList<Tag>): List<Tag> {
+        val user = userService.findUserFromAuthentication()
+            ?: return throw UsernameNotFoundException("Invalid User")
+        tags.map { x -> x.user = user }
+
+        return tagService.saveAll(tags)
+    }
+
+    @PutMapping("")
+    fun updateTag(@RequestBody tag: Tag): Tag? {
+        val tagOld = tagService.findById(tag.id ?: 0)
+        if (tagOld.isEmpty) {
+            return null
+        }
+
+        val user = userService.findUserFromAuthentication()
+            ?: return throw UsernameNotFoundException("Invalid User")
+        tag.user = user
+        // TODO: This param should be modified with DB functions
+        tag.createdAt = tagOld.get().createdAt
+
         return tagService.save(tag)
     }
 }
