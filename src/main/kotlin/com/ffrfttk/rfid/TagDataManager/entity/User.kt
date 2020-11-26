@@ -1,18 +1,13 @@
 package com.ffrfttk.rfid.TagDataManager.entity
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.ObjectIdGenerators
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.AuthorityUtils
-import org.springframework.security.core.userdetails.UserDetails
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
 @Table(name = "users")
-@JsonIdentityInfo(property = "@id", generator = ObjectIdGenerators.UUIDGenerator::class)
-class User (
+//@JsonIdentityInfo(property = "@id", generator = ObjectIdGenerators.UUIDGenerator::class)
+data class User (
 
     @Id
     var name: String = "",
@@ -33,5 +28,6 @@ class User (
     var updatedAt: LocalDateTime? = LocalDateTime.now(),
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = [CascadeType.ALL])
+    @JsonManagedReference
     var tags: MutableList<Tag> = mutableListOf()
 )
