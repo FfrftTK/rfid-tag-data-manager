@@ -12,9 +12,6 @@ data class User (
     @Id
     var name: String = "",
 
-    @Transient
-    var passwordRaw: String? = "",
-
 //    @JsonIgnore
     @Column(name = "password")
     var password: String = "",

@@ -48,7 +48,7 @@ class SecurityConfig(
             .formLogin()
             .loginProcessingUrl(SecurityProperties.SIGN_IN_URL)
             .usernameParameter("name")
-            .passwordParameter("passwordRaw")
+            .passwordParameter("password")
             .successHandler(appAuthenticationSuccessHandler)
             .failureHandler(appAuthenticationFailureHandler)
             // Authorizations
