@@ -14,7 +14,7 @@ class JWTAuthenticationFilter : UsernamePasswordAuthenticationFilter() {
         request: HttpServletRequest,
         response: HttpServletResponse?): Authentication {
         val name = request.getParameterValues("name").firstOrNull()
-        val password = request.getParameterValues("passwordRaw").firstOrNull()
+        val password = request.getParameterValues("password").firstOrNull()
         val authRequest = UsernamePasswordAuthenticationToken(name, password)
         setDetails(request, authRequest)
         return authenticationManager.authenticate(authRequest)
